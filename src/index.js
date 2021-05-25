@@ -2,7 +2,7 @@ const path = require('path')
 const http = require('http')
 const express = require('express')
 const socketio = require('socket.io')
-
+const Filter = require('bad-words')
 const app = express()
 //we create server explicitly because it will be used 
 //as parametre for socketio function to create server
@@ -18,11 +18,34 @@ app.use(express.static(publicDirectoryPath))
 //socketio will be fired if socketiowill get a new connection
 //socket is object which consist infor connected client
 //we send event in socket.io i.e. to communicate with app and server, socket.io send events
+
+//io.on will be only used for connection
+//socket.on will be used for disconnect
 io.on('connection',(socket)=>{
     console.log('new Websocket connection')
-    io.emit('message','Welcome')
-    socket.on('sendMessage',(message)=>{
+    socket.emit('message','Welcome')
+    //it will send message to every client other than the newly joint client
+    socket.broadcast.emit('message','A new user joined')
+    socket.on('sendMessage',(message,callback)=>{
+        const filter = new Filter()
+        if(filter.isProfane(message))
+        {
+            return callback('Profanity is not allowed')
+        }
         io.emit('message',message)
+        callback()
+    })
+
+    socket.on('sendLocation',(location,callback)=>{
+        //to send longitude and latitude
+        // io.emit('message',`Location : ${location.latitude}, ${location.longitude}`)
+
+        //To send google map link
+        io.emit('message',`https://google.com/maps?q=${location.latitude},${location.longitude}`)
+        callback('Location shared')
+    })
+    socket.on('disconnect',()=>{
+        io.emit('message','a user has left')
     })
 })
 
