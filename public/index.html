@@ -5,8 +5,12 @@
 
     </head>
     <body>
-        Chat App
-        <button id="increment">+1</button>
+        Chat App <br>
+        <form >
+            <label for="Message">MESSAGE:</label><br>
+            <input type="text" id="mess" placeholder="Type your message"><br>
+            <button id="send">Send</button>
+        </form>
         <!-- client side version of socket.io library and it can be use to facilitate this communication -->
         <script src="/socket.io/socket.io.js"></script>   
         <script src="/js/chat.js"></script>
