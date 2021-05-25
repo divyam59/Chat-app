@@ -6,13 +6,33 @@
     </head>
     <body>
         Chat App <br>
+
+        <div id="messages"></div>
+
         <form >
-            <label for="Message">MESSAGE:</label><br>
+            <label>MESSAGE:</label><br>
             <input type="text" id="mess" placeholder="Type your message"><br>
             <button id="send">Send</button>
         </form>
         <button id="send-location">Send location</button>
+        
+        <!-- template for showing message sent by user -->
+        <script id="message-template" type="text">
+            <div>
+                <p>{{message}}</p>
+            </div>
+        </script>
+
+        <!-- template for showing url location -->
+        <script id="location-template" type="url">
+            <div>
+                <!-- taget ="_blank" to open link in new table -->
+                <p><a href="{{url}}" target="_blank">My current location </a> </p>
+            </div>
+        </script>
+        
         <!-- client side version of socket.io library and it can be use to facilitate this communication -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
         <script src="/socket.io/socket.io.js"></script>   
         <script src="/js/chat.js"></script>
     </body>

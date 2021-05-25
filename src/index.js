@@ -41,7 +41,7 @@ io.on('connection',(socket)=>{
         // io.emit('message',`Location : ${location.latitude}, ${location.longitude}`)
 
         //To send google map link
-        io.emit('message',`https://google.com/maps?q=${location.latitude},${location.longitude}`)
+        io.emit('locationMessage',`https://google.com/maps?q=${location.latitude},${location.longitude}`)
         callback('Location shared')
     })
     socket.on('disconnect',()=>{

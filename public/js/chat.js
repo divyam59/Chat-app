@@ -3,11 +3,28 @@
 //return value of io will be store in a variable to access it
 //it will be used for both sending and receiving event from server or to client
 const socket = io()
+//Now there will be no need to write RHS just use LHS
+const $messages = document.querySelector('#messages')
+
+//template for printing message
+const messageTemplate = document.querySelector('#message-template').innerHTML
+const locationTemplate = document.querySelector('#location-template').innerHTML
 
 socket.on('message',(message)=>{
-    console.log(message);
+    // console.log(message);
+    //data will 2nd parameter to render and it is a object
+    const html = Mustache.render(messageTemplate,{
+        message:message
     })
-
+    $messages.insertAdjacentHTML('beforeend',html)
+})
+    socket.on('locationMessage',(url)=>{
+        // console.log(url);
+        const html = Mustache.render(locationTemplate,{
+            url:url
+        })
+        $messages.insertAdjacentHTML('beforeend',html)
+    })
     //enable and disable form buton
     //to prevent same message sent twice or if one message is not sent and you
     //start writing other and click on send, anomly is there
